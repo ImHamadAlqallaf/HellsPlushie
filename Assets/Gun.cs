@@ -12,7 +12,8 @@ public class Gun : MonoBehaviour
     public float smallDamage = 1f;
     private BoxCollider gunTrigger;
 
-    public LayerMask raycastLayerMask;
+    // Only cast ray against enemies
+    public LayerMask enemyLayerMask;
     public EnemyManager enemyManager;
 
     void Start()
@@ -33,26 +34,17 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
-        foreach (var enemy in enemyManager.enemiesInTrigger)
-        {
-            var dir = enemy.transform.position - transform.position;
-            RaycastHit hit;
+        RaycastHit hit;
 
-            if (Physics.Raycast(transform.position, dir.normalized, out hit, range * 1.5f, raycastLayerMask))
+        // Raycast only against the Enemy layer
+        if (Physics.Raycast(transform.position, transform.forward, out hit, range, enemyLayerMask))
+        {
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                if (hit.transform == enemy.transform)
-                {
-                    float dist = Vector3.Distance(enemy.transform.position, transform.position);
-                    if(dist > range * 0.5f)
-                    {
-                        enemy.TakeDamage(smallDamage);
-                    }
-                    else
-                    {
-                        enemy.TakeDamage(bigDamage);
-                    }
-                   
-                }
+                float dist = Vector3.Distance(hit.point, transform.position);
+                float damage = dist > range * 0.5f ? smallDamage : bigDamage;
+                enemy.TakeDamage(damage);
             }
         }
 

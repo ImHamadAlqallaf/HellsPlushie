@@ -5,7 +5,6 @@ public class PlayerActions : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 8f;
     [SerializeField] private float jumpForce = 12f;
-    [SerializeField][Range(0.1f, 1f)] private float jumpSensitivity = 0.5f; // Lower = more sensitive
 
     [Header("Look")]
     [SerializeField] private float mouseSensitivity = 150f;
@@ -22,6 +21,7 @@ public class PlayerActions : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (!playerCamera) playerCamera = GetComponentInChildren<Camera>();
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -35,36 +35,44 @@ public class PlayerActions : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
 
-        // Jump Buffer System
+        // Jump Input Buffer
         if (Input.GetButtonDown("Jump"))
             lastJumpPressTime = Time.time;
     }
 
     void FixedUpdate()
     {
-        // Ground Check (adjusted for tall character)
-        isGrounded = Physics.Raycast(transform.position + Vector3.up * 0.1f,
-                                    Vector3.down,
-                                    0.2f); // Short raycast
+        // Ground Check
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
 
-        // WASD Movement
-        Vector3 move = transform.right * Input.GetAxis("Horizontal") +
-                       transform.forward * Input.GetAxis("Vertical");
-        rb.velocity = new Vector3(move.x * moveSpeed, rb.velocity.y, move.z * moveSpeed);
+        // Movement
+        Vector3 move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
+        Vector3 targetVelocity = move.normalized * moveSpeed;
+        Vector3 currentVelocity = rb.velocity;
+        Vector3 velocityChange = targetVelocity - new Vector3(currentVelocity.x, 0f, currentVelocity.z);
 
-        // Jump with sensitivity control
-        if ((Time.time - lastJumpPressTime < jumpBufferTime * jumpSensitivity) && isGrounded)
+        if (isGrounded)
+        {
+            rb.drag = 5f;
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
+        else
+        {
+            rb.drag = 0f;
+            rb.AddForce(velocityChange * 0.1f, ForceMode.VelocityChange);
+        }
+
+        // Jump
+        if ((Time.time - lastJumpPressTime < jumpBufferTime) && isGrounded)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-            lastJumpPressTime = 0; // Consume the jump input
+            lastJumpPressTime = 0f;
         }
     }
 
     void OnDrawGizmosSelected()
     {
-        // Visualize ground check
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
-                        transform.position + Vector3.up * 0.1f + Vector3.down * 0.2f);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 1.1f);
     }
 }

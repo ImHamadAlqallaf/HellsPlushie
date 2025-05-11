@@ -1,28 +1,21 @@
 using UnityEngine;
-using System.Collections;
 
-[RequireComponent(typeof(GunRecoil))]
 public class PetalShotgun : MonoBehaviour
 {
     [Header("References")]
-    public Camera fpsCamera;            // assign your MainCamera
-    public Transform muzzlePoint;       // your MuzzlePoint on the shotgun
-    public ParticleSystem muzzleFlash;  // optional muzzle?flash PS
-    public LineRenderer tracerPrefab;   // optional tracer prefab
-    public GameObject impactEffect;     // optional impact prefab
-    public GunRecoil recoil;            // your GunRecoil component
+    public Camera fpsCamera;     // your MainCamera
+    public Transform muzzlePoint;   // at barrel tip
+    public ParticleSystem muzzleFlash;  // optional
+    public LineRenderer tracerPrefab;  // optional per-pellet tracer
+    public GameObject impactEffect;  // optional
+    public GunRecoil recoil;        // optional
 
-    [Header("Shotgun Settings")]
-    public int pelletCount = 8;      // number of rays/pellets per shot
-    public float spreadAngle = 12f;    // max degrees off?center
-    public float range = 50f;    // how far each pellet goes
-
-    void Awake()
-    {
-        // auto?assign recoil if you forgot
-        if (recoil == null)
-            recoil = GetComponent<GunRecoil>();
-    }
+    [Header("Settings")]
+    public int pelletCount = 8;       // # of pellets
+    [Tooltip("cone spread in degrees")]
+    public float spreadAngle = 10f;
+    public float range = 60f;
+    public float damagePerPellet = 12f;
 
     void Update()
     {
@@ -32,64 +25,57 @@ public class PetalShotgun : MonoBehaviour
 
     void ShootSpread()
     {
-        // 1) Muzzle flash
+        // 1) muzzle flash
         if (muzzleFlash != null)
             muzzleFlash.Play();
 
-        // 2) Recoil
-        recoil?.FireRecoil();
+        // 2) recoil kick
+        if (recoil != null)
+            recoil.FireRecoil();
 
-        // 3) Fire each pellet
+        Vector3 origin = fpsCamera.transform.position;
+
+        // 3) fire each pellet
         for (int i = 0; i < pelletCount; i++)
         {
-            // random spread within a cone
+            // randomize direction within cone
             Vector3 dir = fpsCamera.transform.forward;
             float yaw = Random.Range(-spreadAngle, spreadAngle);
             float pitch = Random.Range(-spreadAngle, spreadAngle);
-            dir = Quaternion.Euler(pitch, yaw, 0) * dir;
+            dir = Quaternion.Euler(pitch, yaw, 0f) * dir;
 
             // raycast
             RaycastHit hit;
-            Vector3 origin = fpsCamera.transform.position;
-            Vector3 endPos = origin + dir * range;
+            Vector3 endPoint = origin + dir * range;
             if (Physics.Raycast(origin, dir, out hit, range))
             {
-                endPos = hit.point;
-                // impact effect
+                endPoint = hit.point;
+
+                // 3a) apply damage
+                var dmg = hit.collider.GetComponent<IDamageable>();
+                if (dmg != null)
+                    dmg.TakeDamage(damagePerPellet);
+
+                // 3b) impact VFX
                 if (impactEffect != null)
                 {
-                    var impact = Instantiate(
+                    var fx = Instantiate(
                         impactEffect,
                         hit.point,
-                        Quaternion.LookRotation(hit.normal));
-                    Destroy(impact, 2f);
+                        Quaternion.LookRotation(hit.normal)
+                    );
+                    Destroy(fx, 2f);
                 }
             }
 
-            // tracer line
-            if (tracerPrefab != null)
+            // 4) tracer
+            if (tracerPrefab != null && muzzlePoint != null)
             {
-                var tracer = Instantiate(tracerPrefab);
+                var tracer = Instantiate(tracerPrefab, muzzlePoint.position, Quaternion.identity);
                 tracer.SetPosition(0, muzzlePoint.position);
-                tracer.SetPosition(1, endPos);
-                StartCoroutine(FadeTracer(tracer));
+                tracer.SetPosition(1, endPoint);
+                Destroy(tracer.gameObject, 0.05f);
             }
         }
-    }
-
-    IEnumerator FadeTracer(LineRenderer tr)
-    {
-        float t = 0f, duration = 0.1f;
-        Color startCol = tr.startColor;
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            float a = 1f - (t / duration);
-            Color col = new Color(startCol.r, startCol.g, startCol.b, a);
-            tr.startColor = col;
-            tr.endColor = col;
-            yield return null;
-        }
-        Destroy(tr.gameObject);
     }
 }

@@ -3,29 +3,39 @@ using System.Collections;
 
 public class SwordSwing : MonoBehaviour
 {
-    [Tooltip("How many degrees to swing along the chosen axis")]
+    [Tooltip("Degrees to rotate for the swing arc")]
     public float swingAngle = 70f;
-    [Tooltip("Total time (in seconds) for swing down + return up")]
+    [Tooltip("Total duration (s) of down+up swing")]
     public float swingDuration = 0.4f;
     [Tooltip("Local axis to swing around")]
-    public Vector3 swingAxis = Vector3.up;
-
+    public Vector3 swingAxis = Vector3.forward;
 
     private bool _isSwinging;
     private Quaternion _startRot;
 
     void Start()
     {
-        // record the “rest” orientation
+        // capture the “resting” orientation once
         _startRot = transform.localRotation;
+    }
+
+    void OnEnable()
+    {
+        // if we come back mid-switch, snap back to rest
+        transform.localRotation = _startRot;
+        _isSwinging = false;
+    }
+
+    void OnDisable()
+    {
+        // ensure no coroutine leaves us in the wrong pose
+        transform.localRotation = _startRot;
+        _isSwinging = false;
     }
 
     void Update()
     {
-        if (!gameObject.activeInHierarchy) return;
-
-        // left?click to swing
-        if (Input.GetMouseButtonDown(0) && !_isSwinging)
+        if (!_isSwinging && Input.GetMouseButtonDown(0))
             StartCoroutine(DoSwing());
     }
 
@@ -35,9 +45,7 @@ public class SwordSwing : MonoBehaviour
         float half = swingDuration * 0.5f;
         float t = 0f;
 
-        // rotation downwards by swingAngle about swingAxis
         Quaternion downRot = _startRot * Quaternion.AngleAxis(swingAngle, swingAxis);
-
 
         // swing down
         while (t < half)

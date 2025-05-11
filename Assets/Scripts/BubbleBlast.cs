@@ -8,6 +8,8 @@ public class BubbleBlast : MonoBehaviour
     public ParticleSystem muzzleFlash;  // optional
     public GameObject impactEffect;     // optional small prefab
     public LineRenderer tracerPrefab;   // assign your Tracer prefab here
+    public GunRecoil recoil;
+
 
     [Header("Settings")]
     public float range = 100f;
@@ -42,5 +44,7 @@ public class BubbleBlast : MonoBehaviour
                 Destroy(impact, 2f);
             }
         }
+        if (recoil != null) recoil.FireRecoil();
+
     }
 }

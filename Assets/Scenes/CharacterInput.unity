@@ -576,6 +576,29 @@ MonoBehaviour:
   swingAngle: 70
   swingDuration: 0.4
   swingAxis: {x: 0, y: 1, z: 0}
+  _isSwinging: 0
+  _startRot: {x: 0, y: 0, z: 0, w: 0}
+--- !u!95 &368832246
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368832238}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99f4037c2532c1c4ab350fdf430ae2ad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &378999687
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100008, guid: 8bb0478a6ea639f4b94a0e0981a565ee, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 8bb0478a6ea639f4b94a0e0981a565ee, type: 3}
       propertyPath: m_RootOrder
@@ -786,6 +809,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 8bb0478a6ea639f4b94a0e0981a565ee, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8c6ac16bf4f8cbc459ca5221e663a439, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bb0478a6ea639f4b94a0e0981a565ee, type: 3}
 --- !u!1 &642464528 stripped
@@ -825,25 +852,6 @@ MonoBehaviour:
   drainRate: 20
   regenRate: 15
   inputActions: {fileID: 642464531}
---- !u!114 &642464536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 642464528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edbc66efb8830e7448865658a1d120ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraRoot: {fileID: 1459124816}
-  weaponRoot: {fileID: 378999688}
-  walkFrequency: 1.5
-  walkAmplitude: 0.05
-  sprintFrequency: 2.5
-  sprintAmplitude: 0.1
-  returnSpeed: 5
 --- !u!1 &821567432
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +865,7 @@ GameObject:
   - component: {fileID: 821567435}
   - component: {fileID: 821567434}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6219,7 +6227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100080, guid: eb680be9ede179440be92403fc57cfa4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400080, guid: eb680be9ede179440be92403fc57cfa4, type: 3}
       propertyPath: m_RootOrder
@@ -6265,6 +6273,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: eb680be9ede179440be92403fc57cfa4, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 544e7a71fef04134e8cd3c25b843f138, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb680be9ede179440be92403fc57cfa4, type: 3}
 --- !u!4 &1162371558 stripped
@@ -6273,21 +6285,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1162371557}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1162371560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104502380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcf004d2a53aaa644847c16f977f3fd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recoilDistance: 0.1
-  recoilSpeed: 20
-  returnSpeed: 10
 --- !u!114 &1162371561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6295,7 +6292,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104502380}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acd759fdd5e6dcb4e93a1235f20b6433, type: 3}
   m_Name: 
@@ -6305,11 +6302,24 @@ MonoBehaviour:
   muzzleFlash: {fileID: 972899254}
   tracerPrefab: {fileID: 0}
   impactEffect: {fileID: 0}
-  recoil: {fileID: 1162371560}
+  recoil: {fileID: 0}
   pelletCount: 8
   spreadAngle: 12
   range: 50
   damagePerPellet: 12
+--- !u!114 &1162371563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104502380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e34ae13f083fc74eb662585678caf7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Gun: {fileID: 104502380}
 --- !u!1 &1164129119
 GameObject:
   m_ObjectHideFlags: 0
@@ -6377,17 +6387,17 @@ PrefabInstance:
     - target: {fileID: 6651127145205994028, guid: eb360b06ee92a194fa6a456126902349,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.80800056
+      value: 0.8080006
       objectReference: {fileID: 0}
     - target: {fileID: 6651127145205994028, guid: eb360b06ee92a194fa6a456126902349,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.87400055
+      value: -0.8740005
       objectReference: {fileID: 0}
     - target: {fileID: 6651127145205994028, guid: eb360b06ee92a194fa6a456126902349,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.1190033
+      value: 1.119003
       objectReference: {fileID: 0}
     - target: {fileID: 6651127145205994028, guid: eb360b06ee92a194fa6a456126902349,
         type: 3}
@@ -6727,6 +6737,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459586069}
   m_CullTransparentMesh: 1
+--- !u!1 &1510292410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6270801006863730838, guid: eb360b06ee92a194fa6a456126902349,
+    type: 3}
+  m_PrefabInstance: {fileID: 1186252264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1533302549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 8bb0478a6ea639f4b94a0e0981a565ee,
@@ -6739,6 +6755,40 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1186252264}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1584054234
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510292410}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 93c33281913e4cb4f9b604f9ace8077e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1584054235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510292410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280086864a370594e87ba755eeaed988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sword: {fileID: 1510292410}
 --- !u!1 &1628364697
 GameObject:
   m_ObjectHideFlags: 0
@@ -7176,7 +7226,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036084069}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73aaa3b618c3d8f48ab280a41987e954, type: 3}
   m_Name: 
@@ -7186,10 +7236,10 @@ MonoBehaviour:
   muzzleFlash: {fileID: 972899254}
   tracerPrefab: {fileID: 0}
   impactEffect: {fileID: 0}
-  recoil: {fileID: 2071687645}
+  recoil: {fileID: 0}
   range: 100
   damage: 25
---- !u!114 &2071687645
+--- !u!114 &2071687647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7198,9 +7248,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2036084069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcf004d2a53aaa644847c16f977f3fd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 8febe38bce0b1584788c5e68b7836a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilDistance: 0.1
-  recoilSpeed: 20
-  returnSpeed: 10
+  Gun: {fileID: 2036084069}

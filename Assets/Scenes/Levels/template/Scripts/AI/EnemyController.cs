@@ -117,6 +117,9 @@ namespace Unity.FPS.AI
         WeaponController m_CurrentWeapon;
         WeaponController[] m_Weapons;
         NavigationModule m_NavigationModule;
+        
+        // Added to track when we're in attack mode
+        private bool m_IsAttacking = false;
 
         void Start()
         {
@@ -136,6 +139,36 @@ namespace Unity.FPS.AI
 
             NavMeshAgent = GetComponent<NavMeshAgent>();
             m_SelfColliders = GetComponentsInChildren<Collider>();
+
+            // Set the NavMeshAgent's stopping distance to match the attack range
+            NavMeshAgent.stoppingDistance = DetectionModule != null ? DetectionModule.AttackRange * 0.8f : 1.5f;
+            
+            // Make sure we can be pushed by the player
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = gameObject.AddComponent<Rigidbody>();
+            }
+            
+            // Configure the Rigidbody for best results
+            rb.isKinematic = true; // Use kinematic for precise positioning
+            rb.useGravity = false; // No gravity
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            
+            // Set up Collider properties for player pushing
+            foreach (Collider col in m_SelfColliders)
+            {
+                // Make sure PhysicMaterial allows sliding
+                if (col.material == null)
+                {
+                    PhysicMaterial physicsMat = new PhysicMaterial("EnemyPhysicsMaterial");
+                    physicsMat.dynamicFriction = 0.2f;
+                    physicsMat.staticFriction = 0.2f;
+                    physicsMat.frictionCombine = PhysicMaterialCombine.Minimum;
+                    physicsMat.bounceCombine = PhysicMaterialCombine.Minimum;
+                    col.material = physicsMat;
+                }
+            }
 
             m_GameFlowManager = FindObjectOfType<GameFlowManager>();
             DebugUtility.HandleErrorIfNullFindObject<GameFlowManager, EnemyController>(m_GameFlowManager, this);
@@ -159,6 +192,9 @@ namespace Unity.FPS.AI
             DetectionModule.onDetectedTarget += OnDetectedTarget;
             DetectionModule.onLostTarget += OnLostTarget;
             onAttack += DetectionModule.OnAttack;
+
+            // Now that we have the DetectionModule, set the stopping distance correctly
+            NavMeshAgent.stoppingDistance = DetectionModule.AttackRange * 0.8f;
 
             var navigationModules = GetComponentsInChildren<NavigationModule>();
             DebugUtility.HandleWarningIfDuplicateObjects<DetectionModule, EnemyController>(detectionModules.Length,
@@ -206,6 +242,34 @@ namespace Unity.FPS.AI
 
             DetectionModule.HandleTargetDetection(m_Actor, m_SelfColliders);
 
+            // Check if we have a known target
+            if (KnownDetectedTarget != null)
+            {
+                // Check if we're in attack range
+                if (IsTargetInAttackRange)
+                {
+                    // We're in attack range, stop moving toward the target
+                    m_IsAttacking = true;
+                    
+                    // Face the target
+                    OrientTowards(KnownDetectedTarget.transform.position);
+                    
+                    // Try to attack
+                    TryAtack(KnownDetectedTarget.transform.position);
+                }
+                else
+                {
+                    // We have a target but not in attack range, chase the target
+                    m_IsAttacking = false;
+                    SetNavDestination(KnownDetectedTarget.transform.position);
+                }
+            }
+            else if (KnownDetectedTarget == null)
+            {
+                // We lost our target
+                m_IsAttacking = false;
+            }
+
             Color currentColor = OnHitBodyGradient.Evaluate((Time.time - m_LastTimeDamaged) / FlashOnHitDuration);
             m_BodyFlashMaterialPropertyBlock.SetColor("_EmissionColor", currentColor);
             foreach (var data in m_BodyRenderers)
@@ -229,6 +293,7 @@ namespace Unity.FPS.AI
         void OnLostTarget()
         {
             onLostTarget.Invoke();
+            m_IsAttacking = false;
 
             // Set the eye attack color and property block if the eye renderer is set
             if (m_EyeRendererData.Renderer != null)

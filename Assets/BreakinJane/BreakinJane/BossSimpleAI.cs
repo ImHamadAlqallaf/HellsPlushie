@@ -63,7 +63,7 @@ public class BossSimpleAI : MonoBehaviour
         if (rb != null)
         {
             Vector3 dir = (player.position - throwPoint.position).normalized;
-            rb.velocity = dir * 20f;
+            rb.velocity = dir * 30f;
         }
     }
 

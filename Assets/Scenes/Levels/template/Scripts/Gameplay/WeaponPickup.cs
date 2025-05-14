@@ -12,31 +12,45 @@ namespace Unity.FPS.Gameplay
         {
             base.Start();
 
-            // Set all children layers to default (to prefent seeing weapons through meshes)
+            // Set all children layers to default (to prevent seeing weapons through meshes)
             foreach (Transform t in GetComponentsInChildren<Transform>())
             {
                 if (t != transform)
                     t.gameObject.layer = 0;
             }
+
+            if (WeaponPrefab == null)
+                Debug.LogError($"[{name}] WeaponPrefab is not assigned!", this);
         }
 
         protected override void OnPicked(PlayerCharacterController byPlayer)
         {
-            PlayerWeaponsManager playerWeaponsManager = byPlayer.GetComponent<PlayerWeaponsManager>();
-            if (playerWeaponsManager)
+            if (WeaponPrefab == null)
             {
-                if (playerWeaponsManager.AddWeapon(WeaponPrefab))
-                {
-                    // Handle auto-switching to weapon if no weapons currently
-                    if (playerWeaponsManager.GetActiveWeapon() == null)
-                    {
-                        playerWeaponsManager.SwitchWeapon(true);
-                    }
-
-                    PlayPickupFeedback();
-                    Destroy(gameObject);
-                }
+                Debug.LogWarning($"[{name}] Pickup has no WeaponPrefab, skipping add.", this);
+                return;
             }
+
+            var pwm = byPlayer.GetComponent<PlayerWeaponsManager>();
+            if (pwm == null)
+            {
+                Debug.LogError($"[{name}] PlayerCharacterController '{byPlayer.name}' has no PlayerWeaponsManager!", byPlayer);
+                return;
+            }
+
+            bool added = pwm.AddWeapon(WeaponPrefab);
+            if (!added)
+            {
+                Debug.LogWarning($"[{name}] PlayerWeaponsManager failed to AddWeapon({WeaponPrefab.name}).", pwm);
+                return;
+            }
+
+            // if this was the first weapon, auto-switch to it
+            if (pwm.GetActiveWeapon() == null)
+                pwm.SwitchWeapon(true);
+
+            PlayPickupFeedback();
+            Destroy(gameObject);
         }
     }
 }

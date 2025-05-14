@@ -15,12 +15,10 @@ public class ObjectiveTracker : MonoBehaviour
 
     private int mobsKilled = 0;
 
-   
     public static ObjectiveTracker Instance { get; private set; }
 
     private void Awake()
     {
-        
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -36,7 +34,6 @@ public class ObjectiveTracker : MonoBehaviour
     {
         UpdateUI();
 
-       
         if (objectiveCompleteBanner != null)
         {
             objectiveCompleteBanner.SetActive(false);
@@ -48,7 +45,6 @@ public class ObjectiveTracker : MonoBehaviour
         mobsKilled++;
         UpdateUI();
 
-       
         if (mobsKilled >= totalMobsToKill)
         {
             ObjectiveComplete();
@@ -61,7 +57,6 @@ public class ObjectiveTracker : MonoBehaviour
         {
             objectiveText.text = objectiveDescription;
         }
-
         if (countText != null)
         {
             countText.text = $"{mobsKilled} / {totalMobsToKill}";
@@ -71,16 +66,12 @@ public class ObjectiveTracker : MonoBehaviour
     private void ObjectiveComplete()
     {
         Debug.Log("Objective Complete!");
-
         if (objectiveCompleteBanner != null)
         {
             objectiveCompleteBanner.SetActive(true);
 
-            
             Invoke("HideCompletionBanner", 3f);
         }
-
-       
     }
 
     private void HideCompletionBanner()
@@ -91,12 +82,23 @@ public class ObjectiveTracker : MonoBehaviour
         }
     }
 
-    
     public void SetNewObjective(string description, int target)
     {
         objectiveDescription = description;
         totalMobsToKill = target;
         mobsKilled = 0;
         UpdateUI();
+    }
+
+    
+    public int GetCurrentKills()
+    {
+        return mobsKilled;
+    }
+
+   
+    public int GetTotalRequiredKills()
+    {
+        return totalMobsToKill;
     }
 }

@@ -1,0 +1,11 @@
+Model Information:
+* title:	picture
+* source:	https://sketchfab.com/3d-models/picture-b36809ce6d8b4dbab8cfd834f813ee9f
+* author:	milaha (https://sketchfab.com/elenakozlova479)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "picture" (https://sketchfab.com/3d-models/picture-b36809ce6d8b4dbab8cfd834f813ee9f) by milaha (https://sketchfab.com/elenakozlova479) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

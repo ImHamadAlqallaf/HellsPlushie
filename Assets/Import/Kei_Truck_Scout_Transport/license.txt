@@ -1,0 +1,11 @@
+Model Information:
+* title:	Kei Truck Scout Transport
+* source:	https://sketchfab.com/3d-models/kei-truck-scout-transport-0cb4b243a9dd4d1ca1ab30a17f23ac81
+* author:	JohnMesplay (https://sketchfab.com/JohnMesplay)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Kei Truck Scout Transport" (https://sketchfab.com/3d-models/kei-truck-scout-transport-0cb4b243a9dd4d1ca1ab30a17f23ac81) by JohnMesplay (https://sketchfab.com/JohnMesplay) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

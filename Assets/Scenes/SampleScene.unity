@@ -221,12 +221,13 @@ RectTransform:
   m_Children:
   - {fileID: 768523066}
   - {fileID: 1702047783}
+  - {fileID: 1231024900}
   m_Father: {fileID: 2022071156}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -526}
+  m_AnchoredPosition: {x: 0, y: -469}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &532717906
@@ -508,6 +509,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1231024899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1231024900}
+  - component: {fileID: 1231024902}
+  - component: {fileID: 1231024901}
+  m_Layer: 5
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1231024900
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231024899}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 532717905}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 5}
+  m_SizeDelta: {x: 250, y: 250}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1231024901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231024899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6226415, g: 0.5674261, b: 0.5674261, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 26e65a18abc456c46a747ec0010cf3c2, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1231024902
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231024899}
+  m_CullTransparentMesh: 1
 --- !u!1 &1702047782
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,8 +617,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -568.653}
-  m_SizeDelta: {x: 487.6319, y: 1083.8369}
+  m_AnchoredPosition: {x: 0, y: -993}
+  m_SizeDelta: {x: 705.6662, y: 1611.3752}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1702047784
 MonoBehaviour:
@@ -579,41 +653,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Our Team
-
-
-    Isa Hasan
-
-
-    Ebrahim Buhaza
-
-
-    Rayyan Alabbasi
-
-
-    Hamad
-    Rashed
-
-
-    Kusi Aloshib
-
-
-    Special Thanks for music production To
-
-
-    Suraj
-    Somu
-
-    &
-
-    S.AbdulAziz Mohd
-
-
-    And a warm thank you to
-
-
-    You, The
-    Player'
+  m_Text: "Our Team\n\nLevel 1 made by:\n\nIsa Hasan\n\nLevel 2 made by:\n\nRayyan
+    Alabbasi\n\nLevel 3 made by: \n\nKosi Aloshib\n\nLevel 4 made by:\n\nEbrahim
+    BuHaza\n\nLevel 5 made by:\n\nHamad Rashed\n\nSpecial Thanks for music production
+    To\n\nSuraj Somu\n&\nS.AbdulAziz Mohd\n\nAnd a warm thank you to\n\nYou, The
+    Player"
 --- !u!222 &1702047785
 CanvasRenderer:
   m_ObjectHideFlags: 0

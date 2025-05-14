@@ -4,15 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Projectile
+  - CinemachineTarget
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Gun
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

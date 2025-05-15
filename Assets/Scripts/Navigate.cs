@@ -5,6 +5,8 @@ public class Navigate : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject settingsMenu;
+    public GameObject instructionsMenu;
+    public GameObject creditsMenu; 
 
     public void goToScene(string sceneName)
     {
@@ -13,10 +15,8 @@ public class Navigate : MonoBehaviour
 
     public void exitGame()
     {
-       
         Application.Quit();
     }
-
 
     public void openSettings()
     {
@@ -24,12 +24,23 @@ public class Navigate : MonoBehaviour
         settingsMenu.SetActive(true);
     }
 
+    public void openInstructions()
+    {
+        mainMenu.SetActive(false);
+        instructionsMenu.SetActive(true);
+    }
+
+    public void openCredits() 
+    {
+        mainMenu.SetActive(false);
+        creditsMenu.SetActive(true);
+    }
+
     public void backToMain()
     {
         settingsMenu.SetActive(false);
+        instructionsMenu.SetActive(false);
+        creditsMenu.SetActive(false); 
         mainMenu.SetActive(true);
     }
-
-   
-
 }
